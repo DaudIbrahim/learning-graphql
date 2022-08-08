@@ -1,0 +1,49 @@
+# https://graphql.org/learn/schema/
+# A GraphQL object type has a name and fields, but at some point those fields have to resolve to some concrete data.
+# That's where the scalar types come in: they represent the leaves of the query.
+# In the following query, the name and appearsIn fields will resolve to scalar types:
+# We know this because those fields don't have any sub-fields - they are the leaves of the query.
+
+# https://www.apollographql.com/docs/apollo-server/schema/schema/#field-nullability
+# Make a field Mandatory by adding a exclamation mark ! after its type
+
+# https://www.apollographql.com/docs/apollo-server/data/resolvers/#handling-arguments
+# Handling Query Arguments
+
+type Query {
+  job(id: ID!): Job
+  jobs: [Job!]
+  company(id: ID!): Company
+}
+
+type Mutation {
+  createJob(input: CreateJobInput!): Job
+  updateJob(input: UpdateJobInput!): Job
+  deleteJob(id: ID!): Job
+}
+
+type Company {
+  id: ID!
+  name: String!
+  description: String
+  jobs: [Job!]
+  # Elements in an array should never be null
+}
+
+type Job {
+  id: ID!
+  title: String!
+  company: Company!
+  description: String
+}
+
+input CreateJobInput {
+  title: String!,
+  description: String
+}
+
+input UpdateJobInput {
+  id: ID!,
+  title: String!,
+  description: String
+}
